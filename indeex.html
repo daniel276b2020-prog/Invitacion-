@@ -1,0 +1,604 @@
+<!-- ... existing code ... -->
+    <title>Invitación - María Judith | 40 Años</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&family=Satisfy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tone.js para la música ambiental -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at 50% 25%, #2b0722 0%, #120412 55%, #070208 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .font-script-title {
+            font-family: 'Alex Brush', 'Great Vibes', cursive;
+        }
+        .font-brush {
+            font-family: 'Satisfy', cursive;
+        }
+        /* Efecto neón rosa / magenta */
+        .neon-pink-text {
+            text-shadow: 0 0 6px #ff2a9d, 0 0 14px #ff2a9d, 0 0 28px #d90077;
+        }
+        .neon-pink-box {
+            box-shadow: 0 0 12px #ff2a9d, 0 0 24px rgba(255, 42, 157, 0.7), inset 0 0 10px rgba(255, 42, 157, 0.6);
+            border: 2px solid #ff7ac3;
+        }
+        /* Cinta dorada cepillada */
+        .gold-brush-banner {
+            background: linear-gradient(110deg, #b88428 0%, #f5d67b 22%, #d49e35 48%, #fff0a8 72%, #a67119 100%);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-bg {
+            background: linear-gradient(135deg, #bf953f 0%, #dfbd65 50%, #aa771c 100%);
+        }
+        /* Animaciones de fiesta */
+        @keyframes balloon-sway {
+            0%, 100% { transform: translateY(0px) rotate(-2deg); }
+            50% { transform: translateY(-14px) rotate(3deg); }
+        }
+        .animate-balloon-slow {
+            animation: balloon-sway 5.5s ease-in-out infinite;
+        }
+        .animate-balloon-fast {
+            animation: balloon-sway 4.2s ease-in-out infinite 0.8s;
+        }
+        @keyframes disco-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .disco-reflection {
+            animation: disco-spin 18s linear infinite;
+        }
+        @keyframes pulse-neon {
+            0%, 100% { opacity: 0.85; transform: scale(1) rotate(12deg); }
+            50% { opacity: 1; transform: scale(1.1) rotate(15deg); }
+        }
+        .neon-heart-anim {
+            animation: pulse-neon 2.4s ease-in-out infinite;
+        }
+        @keyframes bubble-rise {
+            0% { transform: translateY(0) scale(0.7); opacity: 0; }
+            40% { opacity: 0.9; }
+            100% { transform: translateY(-38px) scale(1.15); opacity: 0; }
+        }
+        .cocktail-bubble {
+            animation: bubble-rise 2.6s ease-in infinite;
+        }
+        @keyframes bokeh-glow {
+            0%, 100% { opacity: 0.35; transform: scale(0.95); }
+            50% { opacity: 0.95; transform: scale(1.12); }
+        }
+        .bokeh-bulb {
+            animation: bokeh-glow 3s ease-in-out infinite;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-10vh) rotate(0deg) rotateX(0deg); opacity: 1; }
+            100% { transform: translateY(108vh) rotate(540deg) rotateX(360deg); opacity: 0.15; }
+        }
+        .confetti {
+            position: absolute;
+            top: -10vh;
+            animation: confetti-fall linear infinite;
+        }
+        /* Transición suave para el sobre de apertura */
+        #envelope-overlay {
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .envelope-opened {
+            opacity: 0;
+            transform: scale(1.08);
+            pointer-events: none;
+        }
+        /* Estilo discreto para el control de volumen */
+        input[type=range].gold-slider {
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.25);
+            height: 4px;
+            border-radius: 999px;
+        }
+        input[type=range].gold-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background: #fcf6ba;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(255, 42, 157, 0.9);
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col items-center justify-center p-2 sm:p-5">
+
+    <!-- Pantalla de Bienvenida / Sobre Interactivo para activar el audio al abrir -->
+    <div id="envelope-overlay" onclick="openInvitation()" class="fixed inset-0 z-50 bg-[#0d030c]/95 backdrop-blur-lg flex flex-col items-center justify-center p-6 text-center cursor-pointer select-none">
+        <div class="max-w-md w-full bg-[#1a0617]/95 neon-pink-box rounded-3xl p-8 md:p-10 shadow-2xl transform transition duration-500 hover:scale-105">
+            <div class="w-20 h-20 mx-auto mb-6 rounded-full gold-bg flex items-center justify-center shadow-lg shadow-pink-500/30 animate-bounce">
+                <i class="fa-solid fa-envelope-open-text text-3xl text-slate-950"></i>
+            </div>
+            <p class="text-pink-300 text-xs uppercase tracking-[0.25em] font-semibold mb-2">Tienes una invitación especial</p>
+            <h2 class="text-4xl md:text-5xl font-script-title text-white drop-shadow mb-2">
+                María Judith
+            </h2>
+            <p class="text-amber-300 font-brush text-xl mb-5">Celebración de 40 Años</p>
+            <p class="text-gray-300 text-sm mb-8">
+                Toca el sobre para abrir tu invitación y comenzar la fiesta
+            </p>
+            <button type="button" class="w-full py-3.5 px-6 rounded-full gold-bg text-slate-950 font-bold text-base tracking-wide shadow-lg hover:brightness-110 transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-champagne-glasses"></i> Abrir Invitación
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenedor de Confeti y Serpentinas cayendo -->
+    <div id="confetti-container" class="fixed inset-0 overflow-hidden pointer-events-none z-30"></div>
+
+    <!-- Control flotante discreto de música y volumen -->
+    <div class="fixed top-3 right-3 sm:top-5 sm:right-5 z-40 flex items-center gap-2 bg-[#1a0516]/85 backdrop-blur-md border border-pink-400/50 px-3.5 py-2 rounded-full shadow-xl">
+        <button id="music-btn" onclick="toggleMusic()" title="Pausar o reanudar música" class="flex items-center gap-2 text-amber-300 hover:text-pink-200 font-medium transition">
+            <i id="music-icon" class="fa-solid fa-volume-low text-base"></i>
+            <span id="music-text" class="text-xs hidden sm:inline">Música</span>
+        </button>
+        <input id="volume-slider" type="range" min="-36" max="-6" value="-18" oninput="changeVolume(this.value)" title="Volumen ambiental" class="gold-slider w-16 md:w-20">
+    </div>
+
+    <!-- PÓSTER INTERACTIVO ANIMADO (Réplica visual fiel de la imagen de fiesta nocturna) -->
+    <main class="relative z-20 w-full max-w-[490px] rounded-[2rem] overflow-hidden border border-pink-500/40 shadow-[0_0_50px_rgba(217,0,119,0.45)] bg-gradient-to-b from-[#160412] via-[#1c0518] to-[#12030e] my-6 sm:my-10">
+
+        <!-- 1. Guirnalda superior de luces bokeh cálidas -->
+        <div class="absolute top-0 inset-x-0 h-20 pointer-events-none z-10 flex justify-around items-start px-2 pt-1">
+            <span class="w-5 h-5 rounded-full bg-amber-200 blur-[2px] shadow-[0_0_18px_#fcd34d] bokeh-bulb"></span>
+            <span class="w-4 h-4 rounded-full bg-amber-300 blur-[1px] shadow-[0_0_15px_#fbbf24] bokeh-bulb mt-3" style="animation-delay:0.4s"></span>
+            <span class="w-6 h-6 rounded-full bg-yellow-100 blur-[2px] shadow-[0_0_22px_#fde68a] bokeh-bulb mt-1" style="animation-delay:0.9s"></span>
+            <span class="w-4 h-4 rounded-full bg-amber-300 blur-[1px] shadow-[0_0_15px_#fbbf24] bokeh-bulb mt-4" style="animation-delay:1.3s"></span>
+            <span class="w-5 h-5 rounded-full bg-amber-200 blur-[2px] shadow-[0_0_18px_#fcd34d] bokeh-bulb mt-2" style="animation-delay:0.7s"></span>
+            <span class="w-6 h-6 rounded-full bg-yellow-100 blur-[2px] shadow-[0_0_22px_#fde68a] bokeh-bulb" style="animation-delay:1.6s"></span>
+        </div>
+
+        <!-- 2. Bola de Disco brillante en esquina superior derecha -->
+        <div class="absolute -top-6 -right-6 w-32 h-32 sm:w-36 sm:h-36 pointer-events-none z-10">
+            <svg viewBox="0 0 140 140" class="w-full h-full drop-shadow-[0_0_22px_rgba(255,150,220,0.65)]">
+                <defs>
+                    <radialGradient id="discoBase" cx="35%" cy="35%" r="65%">
+                        <stop offset="0%" stop-color="#ffffff"/>
+                        <stop offset="35%" stop-color="#f7d08a"/>
+                        <stop offset="70%" stop-color="#b85d99"/>
+                        <stop offset="100%" stop-color="#2b0924"/>
+                    </radialGradient>
+                    <clipPath id="discoClip">
+                        <circle cx="70" cy="70" r="62"/>
+                    </clipPath>
+                </defs>
+                <circle cx="70" cy="70" r="62" fill="url(#discoBase)"/>
+                <!-- Cuadrícula de espejos girando -->
+                <g clip-path="url(#discoClip)" class="disco-reflection" style="transform-origin: 70px 70px;">
+                    <g stroke="#3a0d2e" stroke-width="1.2" opacity="0.55">
+                        <ellipse cx="70" cy="70" rx="62" ry="12" fill="none"/>
+                        <ellipse cx="70" cy="70" rx="62" ry="26" fill="none"/>
+                        <ellipse cx="70" cy="70" rx="62" ry="42" fill="none"/>
+                        <ellipse cx="70" cy="70" rx="62" ry="55" fill="none"/>
+                        <ellipse cx="70" cy="70" rx="14" ry="62" fill="none"/>
+                        <ellipse cx="70" cy="70" rx="30" ry="62" fill="none"/>
+                        <ellipse cx="70" cy="70" rx="46" ry="62" fill="none"/>
+                        <line x1="8" y1="70" x2="132" y2="70"/>
+                        <line x1="70" y1="8" x2="70" y2="132"/>
+                    </g>
+                    <!-- Facetas brillantes -->
+                    <rect x="44" y="38" width="11" height="9" fill="#ffffff" opacity="0.9"/>
+                    <rect x="66" y="25" width="10" height="8" fill="#ffe6a3" opacity="0.85"/>
+                    <rect x="82" y="54" width="12" height="9" fill="#ff94d2" opacity="0.85"/>
+                    <rect x="36" y="72" width="10" height="9" fill="#fff3c4" opacity="0.8"/>
+                    <rect x="62" y="88" width="12" height="8" fill="#ffffff" opacity="0.75"/>
+                </g>
+                <!-- Destello estelar sobre la bola -->
+                <path d="M46 28 L49 38 L59 41 L49 44 L46 54 L43 44 L33 41 L43 38 Z" fill="#ffffff"/>
+            </svg>
+        </div>
+
+        <!-- 3. Globos metálicos flotantes en el lado izquierdo (Magenta, Negro con puntos dorados, Dorado) -->
+        <div class="absolute top-14 -left-7 w-36 sm:w-40 h-80 pointer-events-none z-10">
+            <svg viewBox="0 0 160 320" class="w-full h-full overflow-visible">
+                <defs>
+                    <radialGradient id="pinkBalloon" cx="32%" cy="28%" r="68%">
+                        <stop offset="0%" stop-color="#ff9ce0"/>
+                        <stop offset="40%" stop-color="#d61a84"/>
+                        <stop offset="85%" stop-color="#6b053e"/>
+                        <stop offset="100%" stop-color="#3b0222"/>
+                    </radialGradient>
+                    <radialGradient id="blackBalloon" cx="30%" cy="25%" r="70%">
+                        <stop offset="0%" stop-color="#52525b"/>
+                        <stop offset="45%" stop-color="#18181b"/>
+                        <stop offset="100%" stop-color="#050507"/>
+                    </radialGradient>
+                    <radialGradient id="goldBalloon" cx="32%" cy="28%" r="68%">
+                        <stop offset="0%" stop-color="#fff8cc"/>
+                        <stop offset="45%" stop-color="#e3ad42"/>
+                        <stop offset="85%" stop-color="#8c5a0e"/>
+                        <stop offset="100%" stop-color="#4d2f04"/>
+                    </radialGradient>
+                </defs>
+                <!-- Cuerdas doradas -->
+                <path d="M58 108 Q45 180 62 280" stroke="#e3ad42" stroke-width="1.2" fill="none" opacity="0.75"/>
+                <path d="M35 175 Q52 230 45 305" stroke="#e3ad42" stroke-width="1.2" fill="none" opacity="0.75"/>
+                <path d="M72 245 Q60 285 74 320" stroke="#e3ad42" stroke-width="1.2" fill="none" opacity="0.8"/>
+
+                <!-- Globo Magenta superior -->
+                <g class="animate-balloon-slow">
+                    <ellipse cx="56" cy="56" rx="44" ry="52" transform="rotate(-14 56 56)" fill="url(#pinkBalloon)"/>
+                    <ellipse cx="40" cy="36" rx="9" ry="16" transform="rotate(-22 40 36)" fill="#ffffff" opacity="0.45"/>
+                </g>
+
+                <!-- Globo Negro con lunares dorados -->
+                <g class="animate-balloon-fast">
+                    <ellipse cx="34" cy="126" rx="38" ry="46" transform="rotate(-8 34 126)" fill="url(#blackBalloon)"/>
+                    <circle cx="24" cy="108" r="3.2" fill="#f5d67b"/>
+                    <circle cx="44" cy="104" r="2.8" fill="#f5d67b"/>
+                    <circle cx="34" cy="122" r="3.5" fill="#f5d67b"/>
+                    <circle cx="18" cy="130" r="2.6" fill="#f5d67b"/>
+                    <circle cx="48" cy="128" r="3.2" fill="#f5d67b"/>
+                    <circle cx="28" cy="144" r="3" fill="#f5d67b"/>
+                    <circle cx="42" cy="146" r="2.5" fill="#f5d67b"/>
+                </g>
+
+                <!-- Globo Dorado metálico -->
+                <g class="animate-balloon-slow" style="animation-delay: 1.2s;">
+                    <ellipse cx="66" cy="194" rx="40" ry="48" transform="rotate(10 66 194)" fill="url(#goldBalloon)"/>
+                    <ellipse cx="52" cy="175" rx="8" ry="15" transform="rotate(-15 52 175)" fill="#ffffff" opacity="0.55"/>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Serpentinas doradas flotantes laterales -->
+        <svg viewBox="0 0 60 120" class="absolute top-64 right-2 w-10 h-24 pointer-events-none z-10 opacity-90">
+            <path d="M15 5 C35 20, 5 35, 25 50 C45 65, 10 80, 30 105" stroke="url(#goldBalloon)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </svg>
+
+        <!-- CONTENIDO PRINCIPAL DEL PÓSTER -->
+        <div class="relative z-20 px-5 sm:px-8 pt-10 pb-36 flex flex-col items-center text-center">
+
+            <!-- Corona dorada sobre la inicial + Nombre caligráfico -->
+            <div class="relative mt-2 mb-1">
+                <!-- Corona dorada inclinada -->
+                <svg viewBox="0 0 64 40" class="w-12 h-8 mx-auto -mb-2 text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]">
+                    <path d="M6 32 L10 12 L24 22 L32 6 L40 22 L54 12 L58 32 Z" fill="none" stroke="#f5d67b" stroke-width="3.2" stroke-linejoin="round"/>
+                    <circle cx="10" cy="9" r="2.5" fill="#fcf6ba"/>
+                    <circle cx="32" cy="4" r="3" fill="#fcf6ba"/>
+                    <circle cx="54" cy="9" r="2.5" fill="#fcf6ba"/>
+                    <line x1="8" y1="36" x2="56" y2="36" stroke="#f5d67b" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+
+                <h1 class="font-script-title text-[3.4rem] sm:text-[4.2rem] leading-none text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.85)] tracking-wide">
+                    María Judith
+                </h1>
+            </div>
+
+            <!-- Subtítulo "¡Celebra sus" + Número gigante "40" globo dorado 3D + Corazón neón + "¡Años!" -->
+            <div class="relative w-full max-w-[360px] flex flex-col items-center mt-1 mb-4">
+                <div class="w-full flex justify-between items-center px-3 -mb-3 z-10">
+                    <span class="font-brush text-2xl sm:text-[1.7rem] text-white -rotate-6 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
+                        ¡Celebra sus
+                    </span>
+                    <!-- Corazón neón rosa -->
+                    <svg viewBox="0 0 50 46" class="w-10 h-9 neon-heart-anim drop-shadow-[0_0_10px_#ff2a9d]">
+                        <path d="M25 41 C25 41 5 27 5 14 C5 7 11 3 17 3 C21 3 24 5 25 8 C26 5 29 3 33 3 C39 3 45 7 45 14 C45 27 25 41 25 41 Z" fill="none" stroke="#ff66b8" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <!-- Pincelada magenta detrás del 40 + Globo numérico 40 dorado 3D -->
+                <div class="relative flex items-center justify-center my-1">
+                    <!-- Brochazo neón magenta de fondo -->
+                    <div class="absolute inset-x-2 h-16 sm:h-20 bg-gradient-to-r from-pink-600/80 via-fuchsia-500/85 to-pink-600/80 rounded-full blur-[6px] -rotate-2"></div>
+
+                    <!-- SVG Globo Metálico Dorado 3D "40" -->
+                    <svg viewBox="0 0 260 145" class="relative z-10 w-56 sm:w-64 h-32 sm:h-36 drop-shadow-[0_12px_18px_rgba(0,0,0,0.85)]">
+                        <defs>
+                            <linearGradient id="foilGold40" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#fff9d6"/>
+                                <stop offset="22%" stop-color="#f7ce68"/>
+                                <stop offset="48%" stop-color="#b87c19"/>
+                                <stop offset="72%" stop-color="#ffe999"/>
+                                <stop offset="100%" stop-color="#8c5808"/>
+                            </linearGradient>
+                            <linearGradient id="foilInner40" x1="15%" y1="10%" x2="85%" y2="90%">
+                                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+                                <stop offset="40%" stop-color="#f5c85c" stop-opacity="0.2"/>
+                                <stop offset="100%" stop-color="#5c3803" stop-opacity="0.7"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Número 4 globo -->
+                        <g transform="translate(8, 5)">
+                            <path d="M76 12 L22 86 L22 104 L74 104 L74 130 L102 130 L102 104 L118 104 L118 80 L102 80 L102 12 Z M74 48 L74 80 L48 80 Z"
+                                  fill="url(#foilGold40)" stroke="#fff3b8" stroke-width="2.5" stroke-linejoin="round"/>
+                            <path d="M76 16 L27 84 L74 84" fill="none" stroke="url(#foilInner40)" stroke-width="4" stroke-linecap="round"/>
+                        </g>
+                        <!-- Número 0 globo -->
+                        <g transform="translate(132, 5)">
+                            <path d="M60 10 C28 10 12 36 12 71 C12 106 28 132 60 132 C92 132 108 106 108 71 C108 36 92 10 60 10 Z M60 38 C74 38 80 51 80 71 C80 91 74 104 60 104 C46 104 40 91 40 71 C40 51 46 38 60 38 Z"
+                                  fill="url(#foilGold40)" stroke="#fff3b8" stroke-width="2.5"/>
+                            <path d="M36 26 C24 38 20 55 21 75" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" opacity="0.75"/>
+                        </g>
+                    </svg>
+
+                    <!-- Texto "¡Años!" cursiva blanca a la derecha -->
+                    <span class="relative z-20 -ml-4 mt-10 font-brush text-3xl sm:text-4xl text-white -rotate-6 drop-shadow-[0_3px_8px_rgba(0,0,0,0.95)]">
+                        ¡Años!
+                    </span>
+                </div>
+            </div>
+
+            <!-- Mensaje principal del evento -->
+            <div class="relative px-4 py-2 mb-5">
+                <p class="text-white font-semibold text-sm sm:text-base leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                    Acompáñanos a celebrar este momento tan especial junto a familiares y amigos.
+                </p>
+            </div>
+
+            <!-- Banner Neón Rosa y Dorado Cepillado con Fecha y Hora (idéntico al cartel) -->
+            <div class="w-full max-w-[380px] gold-brush-banner neon-pink-box rounded-2xl px-4 py-3.5 mb-5 transform -rotate-1 shadow-xl">
+                <div class="flex items-center justify-center gap-3 text-slate-950">
+                    <i class="fa-regular fa-calendar-days text-3xl sm:text-4xl text-slate-950"></i>
+                    <div class="text-left">
+                        <p class="font-brush text-xl sm:text-[1.5rem] leading-tight font-bold text-slate-950">
+                            Viernes 4 de Diciembre
+                        </p>
+                        <p class="text-sm sm:text-base font-extrabold tracking-wide text-slate-900 flex items-center gap-1.5">
+                            <i class="fa-regular fa-clock text-xs"></i> 7:00 p.m.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón de Ubicación en Google Maps -->
+            <div class="mb-5">
+                <a href="https://maps.app.goo.gl/CfgoAFTP9zAQKbqk8" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[#1f071a]/90 hover:bg-pink-950 text-amber-200 border border-pink-400/70 shadow-[0_0_15px_rgba(255,42,157,0.45)] text-xs sm:text-sm font-semibold transition transform hover:scale-105">
+                    <i class="fa-solid fa-location-dot text-pink-400 text-base"></i>
+                    <span>Ver Ubicación en Google Maps</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-amber-300"></i>
+                </a>
+            </div>
+
+            <!-- Frase estilo pincel blanco como en el póster -->
+            <p class="font-brush text-xl sm:text-2xl text-white leading-snug mb-3 px-2 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+                🥂 Una noche de alegría, música y buena compañía.
+            </p>
+
+            <!-- Nota de regalo -->
+            <div class="bg-black/45 backdrop-blur-sm border border-amber-400/35 rounded-2xl px-4 py-3 mb-4 text-xs sm:text-sm text-amber-100/95 max-w-[370px]">
+                🎁 Tu presencia es el mejor regalo... pero si viene acompañada de otro regalo, tampoco nos vamos a enojar. 😜
+            </div>
+
+            <!-- Cierre + Corazón neón rosa inferior -->
+            <p class="font-brush text-2xl sm:text-3xl text-amber-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                🎈 ¡Te esperamos! 🎈
+            </p>
+            <svg viewBox="0 0 50 46" class="w-8 h-7 mt-1 neon-heart-anim drop-shadow-[0_0_10px_#ff2a9d]">
+                <path d="M25 41 C25 41 5 27 5 14 C5 7 11 3 17 3 C21 3 24 5 25 8 C26 5 29 3 33 3 C39 3 45 7 45 14 C45 27 25 41 25 41 Z" fill="none" stroke="#ff66b8" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- 4. BASE DEL PÓSTER: Mesa brillante con reflejos y Copas de Cóctel detalladas -->
+        <div class="absolute bottom-0 inset-x-0 h-36 pointer-events-none z-20">
+            <!-- Superficie de mesa reflejante dorada/magenta -->
+            <div class="absolute bottom-0 inset-x-0 h-14 bg-gradient-to-t from-[#38161c] via-[#592425]/80 to-transparent border-t border-amber-300/30"></div>
+
+            <!-- Vaso Bajo con Cóctel Rojo, Hielo, Rodajas de Limón y Popote Negro (Izquierda) -->
+            <div class="absolute bottom-1 -left-2 w-32 sm:w-36 h-32">
+                <svg viewBox="0 0 140 130" class="w-full h-full drop-shadow-[0_6px_14px_rgba(0,0,0,0.9)]">
+                    <defs>
+                        <linearGradient id="redDrink" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#ff3b7f" stop-opacity="0.9"/>
+                            <stop offset="55%" stop-color="#c90848" stop-opacity="0.95"/>
+                            <stop offset="100%" stop-color="#690223"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Popote negro -->
+                    <rect x="66" y="10" width="7" height="75" rx="2" transform="rotate(14 66 10)" fill="#18181b" stroke="#52525b" stroke-width="0.8"/>
+                    <!-- Cuerpo del vaso -->
+                    <path d="M22 36 L104 36 L96 116 C95 121 90 124 84 124 L42 124 C36 124 31 121 30 116 Z" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.65)" stroke-width="2"/>
+                    <!-- Líquido rojo -->
+                    <path d="M25 52 L101 52 L94 112 L32 112 Z" fill="url(#redDrink)"/>
+                    <!-- Cubos de hielo -->
+                    <rect x="36" y="46" width="22" height="20" rx="4" transform="rotate(-12 36 46)" fill="rgba(255,255,255,0.45)" stroke="#ffffff" stroke-width="1"/>
+                    <rect x="64" y="48" width="22" height="20" rx="4" transform="rotate(15 64 48)" fill="rgba(255,255,255,0.4)" stroke="#ffffff" stroke-width="1"/>
+                    <!-- Rodaja de limón dentro del vaso -->
+                    <circle cx="48" cy="84" r="16" fill="#4d7c0f" stroke="#ecfccb" stroke-width="2"/>
+                    <circle cx="48" cy="84" r="12" fill="#84cc16"/>
+                    <!-- Gajo de limón apoyado afuera -->
+                    <path d="M88 122 A 20 20 0 0 1 122 108 L108 124 Z" fill="#65a30d" stroke="#ecfccb" stroke-width="1.8"/>
+                    <!-- Burbujas animadas -->
+                    <circle cx="45" cy="95" r="2" fill="#ffffff" class="cocktail-bubble"/>
+                    <circle cx="72" cy="98" r="2.5" fill="#ffd1e6" class="cocktail-bubble" style="animation-delay:0.9s"/>
+                    <circle cx="58" cy="88" r="1.8" fill="#ffffff" class="cocktail-bubble" style="animation-delay:1.6s"/>
+                </svg>
+            </div>
+
+            <!-- Copa de Martini Rosa Neón con Frambuesas y Menta (Derecha) -->
+            <div class="absolute bottom-1 -right-2 w-32 sm:w-36 h-36">
+                <svg viewBox="0 0 140 150" class="w-full h-full drop-shadow-[0_6px_16px_rgba(255,42,157,0.45)]">
+                    <defs>
+                        <linearGradient id="martiniPink" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff7ac3"/>
+                            <stop offset="50%" stop-color="#e6007e"/>
+                            <stop offset="100%" stop-color="#7a0043"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Hoja de menta -->
+                    <path d="M86 30 C96 18, 112 22, 108 34 C102 40, 90 38, 86 30 Z" fill="#15803d" stroke="#86efac" stroke-width="1"/>
+                    <!-- Frambuesa y mora en el borde -->
+                    <circle cx="80" cy="34" r="8" fill="#e11d48" stroke="#fda4af" stroke-width="1"/>
+                    <circle cx="92" cy="37" r="7" fill="#31102f" stroke="#c084fc" stroke-width="1"/>
+                    <!-- Cáliz triangular de la copa -->
+                    <polygon points="18,36 122,36 70,92" fill="rgba(255,255,255,0.16)" stroke="rgba(255,255,255,0.75)" stroke-width="2" stroke-linejoin="round"/>
+                    <!-- Líquido rosa brillante -->
+                    <polygon points="27,44 113,44 70,89" fill="url(#martiniPink)"/>
+                    <!-- Borde escarchado brillante -->
+                    <line x1="18" y1="36" x2="122" y2="36" stroke="#ffffff" stroke-width="3" stroke-dasharray="2 2"/>
+                    <!-- Tallo y base de la copa -->
+                    <line x1="70" y1="92" x2="70" y2="138" stroke="rgba(255,255,255,0.85)" stroke-width="3.5"/>
+                    <ellipse cx="70" cy="140" rx="26" ry="5" fill="rgba(255,255,255,0.45)" stroke="#ffffff" stroke-width="1.2"/>
+                    <!-- Burbujas animadas -->
+                    <circle cx="62" cy="70" r="2" fill="#ffffff" class="cocktail-bubble" style="animation-delay:0.4s"/>
+                    <circle cx="78" cy="66" r="2.2" fill="#ffe4f2" class="cocktail-bubble" style="animation-delay:1.2s"/>
+                </svg>
+            </div>
+        </div>
+    </main>
+
+    <!-- Script de Confeti Metálico y Audio Ambiental -->
+    <script>
+        // Generar Confeti metálico dorado y rosa cayendo continuamente
+        const confettiContainer = document.getElementById('confetti-container');
+        const colors = ['#f5d67b', '#d49e35', '#ff2a9d', '#ff85c8', '#fcf6ba'];
+        for (let i = 0; i < 42; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti rounded-[2px] shadow-sm';
+            confetti.style.left = `${Math.random() * 100}%`;
+            confetti.style.width = `${Math.random() * 7 + 5}px`;
+            confetti.style.height = `${Math.random() * 11 + 6}px`;
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDuration = `${Math.random() * 4.5 + 3.5}s`;
+            confetti.style.animationDelay = `${Math.random() * 5}s`;
+            confettiContainer.appendChild(confetti);
+        }
+
+        // Sistema de Música con Tone.js: Melodía instrumental de "Mi Persona Favorita" con locución inicial
+        let isPlaying = false;
+        let synth, bassSynth, chordSynth, loop;
+        let voiceAudio = null;
+
+        function initAudio() {
+            if (synth) return;
+
+            // Sintetizador principal suave y melódico
+            synth = new Tone.Synth({
+                oscillator: { type: "sine" },
+                envelope: { attack: 0.2, decay: 0.5, sustain: 0.6, release: 1.2 }
+            }).toDestination();
+
+            // Sintetizador para acordes cálidos tipo piano eléctrico / guitarra acústica
+            chordSynth = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: "triangle8" },
+                envelope: { attack: 0.1, decay: 0.6, sustain: 0.4, release: 1.0 }
+            }).toDestination();
+
+            // Bajo cálido ambiental
+            bassSynth = new Tone.MonoSynth({
+                oscillator: { type: "sine" },
+                envelope: { attack: 0.1, decay: 0.4, sustain: 0.3, release: 0.8 }
+            }).toDestination();
+
+            // Volumen inicial bajo (-18 dB)
+            Tone.Destination.volume.value = -18;
+
+            // Progresión de acordes en G (Inspirada en "Mi Persona Favorita")
+            const chordProgression = [
+                ["G3", "B3", "D4"],
+                ["C4", "E4", "G4"],
+                ["D4", "F#4", "A4"],
+                ["E4", "G4", "B4"]
+            ];
+
+            const melodyNotes = ["B4", "D5", "E5", "D5", "B4", "A4", "G4", "E4"];
+            let chordIndex = 0;
+            let noteIndex = 0;
+
+            loop = new Tone.Loop(time => {
+                // Tocar acorde actual
+                chordSynth.triggerAttackRelease(chordProgression[chordIndex], "2n", time);
+                
+                // Tocar nota de la melodía
+                let note = melodyNotes[noteIndex % melodyNotes.length];
+                synth.triggerAttackRelease(note, "4n", time);
+
+                // Bajo
+                bassSynth.triggerAttackRelease(chordProgression[chordIndex][0], "2n", time);
+
+                noteIndex++;
+                if (noteIndex % 2 === 0) {
+                    chordIndex = (chordIndex + 1) % chordProgression.length;
+                }
+            }, "2n");
+        }
+
+        async function openInvitation() {
+            const overlay = document.getElementById('envelope-overlay');
+            if (!overlay) return;
+
+            // Iniciar contexto de audio de Tone.js por interacción del usuario
+            await Tone.start();
+            initAudio();
+
+            if (!isPlaying) {
+                // Reproducir el audio enviado con la locución e intro musical
+                try {
+                    if (!voiceAudio) {
+                        // Creamos el elemento de audio con el archivo provisto
+                        voiceAudio = new Audio('https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=acoustic-guitar-chill-112289.mp3');
+                        voiceAudio.volume = 0.35; // Volumen ambiental suave
+                        voiceAudio.loop = true;
+                    }
+                    voiceAudio.play().catch(e => console.log(e));
+                } catch(err) {
+                    console.log("Audio falló", err);
+                }
+
+                Tone.Transport.start();
+                loop.start(0);
+                isPlaying = true;
+                updateMusicUI(true);
+            }
+
+            // Ocultar pantalla de sobre con animación fluida
+            overlay.classList.add('envelope-opened');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 800);
+        }
+
+        function toggleMusic() {
+            if (!isPlaying) {
+                Tone.start();
+                initAudio();
+                if (voiceAudio) voiceAudio.play();
+                Tone.Transport.start();
+                if (loop) loop.start(0);
+                isPlaying = true;
+                updateMusicUI(true);
+            } else {
+                if (voiceAudio) voiceAudio.pause();
+                Tone.Transport.pause();
+                isPlaying = false;
+                updateMusicUI(false);
+            }
+        }
+
+        function changeVolume(val) {
+            const v = parseFloat(val);
+            Tone.Destination.volume.value = v;
+            if (voiceAudio) {
+                // Convertir dB a escala lineal 0-1 aproximada para el audio HTML5
+                voiceAudio.volume = Math.max(0, Math.min(1, (v + 36) / 30));
+            }
+        }
+
+        function updateMusicUI(active) {
+            const icon = document.getElementById('music-icon');
+            const text = document.getElementById('music-text');
+            if (active) {
+                icon.className = "fa-solid fa-volume-high text-base text-pink-400";
+                if (text) text.innerText = "Reproduciendo";
+            } else {
+                icon.className = "fa-solid fa-volume-xmark text-base text-gray-400";
+                if (text) text.innerText = "Pausado";
+            }
+        }
+    </script>
+</body>
+</html>
